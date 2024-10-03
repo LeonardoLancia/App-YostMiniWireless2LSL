@@ -1,6 +1,6 @@
 # App-YostMiniWireless2LSL
 
-Code to create a LSL stream including one or more data types (e.g. accelleration, orientation, etc.) from one or more Yost 3Space Mini Wirelees IMU sensors connected to the PC via a wireless dongle.
+Simple code to create a LSL stream including one or more data types (e.g. accelleration, orientation, etc.) from one or more Yost 3Space Mini Wirelees IMU sensors connected to the PC via a wireless dongle.
 
 Before launching the streaming the scripts performs several initialization operations:
 
@@ -42,7 +42,7 @@ This is a command line scripts that acceps the following parameters:
 **content** (list of (max 8) strings, optional; Default: ['READ_TARED_ORIENTATION_AS_MAT','READ_TARED_ORIENTATION_AS_AXIS_ANGLE' ,'READ_TARED_ORIENTATION_AS_EULER' ]): 
 	streaming variables  
 
-**typeStreaming** (str, optional; Default: 'IMUs'): type of streaming declared to Lab Streaming Layer
+**typeStreaming** (str, optional; Default: 'IMU'): type of streaming declared to Lab Streaming Layer
 
 ## Examples:
 from the command line 
