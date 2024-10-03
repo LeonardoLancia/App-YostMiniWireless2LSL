@@ -78,11 +78,11 @@ def initialize_sensor_streaming(comPortName,logicalIDs,content,srate ):
     -------
     com : obj
         comunication object.
-    sensor : TYPE
+    sensor : obj
         sensor object.
-    n_channels : TYPE
+    n_channels : int
         number of channels to stream.
-    nominal_sr : TYPE
+    nominal_sr : float
         achieved sr.
 
     '''
@@ -181,7 +181,7 @@ def main(argv):
         
     content: list of (max 8) strings, streaming variables  
         
-    typeStreaming: str, optional. Default: 'EEG'
+    typeStreaming: str, optional. Default: 'IMU'
         type of streaming declared to Lab Streaming Layer
     
     Returns
@@ -193,7 +193,7 @@ def main(argv):
     lslRate=None
     comPortName='COM10'
     name = 'YostSens'
-    typeStreaming = 'IMUs'
+    typeStreaming = 'IMU'
     logicalIDs = [0,1]
     content = ['READ_TARED_ORIENTATION_AS_MAT' , 
                'READ_TARED_ORIENTATION_AS_AXIS_ANGLE' ,
