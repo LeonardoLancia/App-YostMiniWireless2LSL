@@ -3,9 +3,14 @@
 Code to create a LSL stream including one or more data types (e.g. accelleration, orientation, etc.) from one or more Yost 3Space Mini Wirelees IMU sensors connected to the PC via a wireless dongle.
 
 Before launching the streaming the scripts performs several initialization operations:
-The first time streaming is launched after a dongle has been plugged in, streaming packets may come out empty. Therefore, the scripts tries to intialize the COM port and the sensors and launch the stream several times. Each time checking if the streamed packets are empty. 
-Usually two trials are enough to get data, however if after 10 trials the pakets are empty an exception is thrown. During this check the time lag between consecutive non empty packets of data is used to estimate the actual sampling rate avialable with the number of sensors and the data required.
-Finally the number of LSL streaming channels is computed based on the number of sensors and the queries sent to the sensors.
+
+1) The first time streaming is launched after a dongle has been plugged in, streaming packets may come out empty. Therefore, the scripts tries to intialize the COM port and the sensors and launch the stream several times. Each time checking if the streamed packets are empty. 
+Usually two trials are enough to get data, however if after 10 trials the pakets are empty an exception is thrown. 
+
+2) During this check the time lag between consecutive non empty packets of data is used to estimate the actual sampling rate avialable with the number of sensors and the data required.
+
+3) Finally the number of LSL streaming channels is computed based on the number of sensors and the queries sent to the sensors.
+
 After these initialization steps, the stream is launched and is interrupted only when the window in which the code is running is under focus and the user presses CTRL+C.
 
 ## Installation and requirements:
