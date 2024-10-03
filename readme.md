@@ -2,6 +2,11 @@
 
 Code to create a LSL stream including one or more data types (e.g. accelleration, orientation, etc.) from one or more Yost 3Space Mini Wirelees IMU sensors connected to the PC via a wireless dongle.
 
+Before launching the streaming the scripts performs several initialization operations:
+The first time streaming is launched after a dongle has been plugged in, streaming packets may come out empty. Therefore, the scripts tries to intialize the COM port and the sensors and launch the stream several times. Each time checking if the streamed packets are empty. 
+Usually two trials are enough to get data, however if after 10 trials the pakets are empty an exception is thrown. During this check the time lag between consecutive non empty packets of data is used to estimate the actual sampling rate avialable with the number of sensors and the data required.
+Finally the number of LSL streaming channels is computed based on the number of sensors and the queries sent to the sensors.
+After these initialization steps, the stream is launched and is interrupted only when the window in which the code is running is under focus and the user presses CTRL+C.
 
 ## Installation and requirements:
 You need to download and unpack the Yost 3Space sensor API for Python 3 which is avialable here:
@@ -15,12 +20,7 @@ pylsl
 numpy
 
 ## Usage:
-When launched the script computes the number of values retrived each time the streaming buffer is accessed given the number of sensors and the queries sent to the sensors.
-As the first time streaming is launched after a dongle is plugged in, streaming packets may come out empty. Therefore the scripts tries to intialize the COM port and the sensors and launch the stream several times. Each time checking if the streamed packets are empty. 
-Usially two trials are enough to get data, however if after 10 trials the pakets are empty an exception is thrown. During this check the time lag between consecutive non empty packets of data is used to estimate the actual sampling rate avialable with the number of sensors and the data required.
-After this initialization step the stream is launched and is interrupted only when the window in which the code is running is under focus and the user presses CTRL+C.
-
-The script can be launched with the following parameters:
+This is a command line scripts that acceps the following parameters: 
 
 srate (int, optional): streaming rate required to the sensors in frames per secs. Default: 100
     
@@ -36,7 +36,6 @@ content (list of (max 8) strings, optional; Default: ['READ_TARED_ORIENTATION_AS
 	streaming variables  
 
 typeStreaming (str, optional; Default: 'IMUs'): type of streaming declared to Lab Streaming Layer
-
 
 ## Examples:
 from the command line 
