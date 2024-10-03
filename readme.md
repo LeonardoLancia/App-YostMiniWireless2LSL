@@ -18,35 +18,37 @@ You need to download and unpack the Yost 3Space sensor API for Python 3 which is
 
 https://yostlabs.com/wp-content/uploads/2023/04/ThreeSpaceAPI_py3_beta_V0.6.zip
 
-Copy the script yost3sLSL.py from this reposirtory to same folder as ThreeSpaceAPI.py included in the Yost 3Space sensor API
+Copy the script **yost3sLSL.py** from this reposirtory to same folder as **ThreeSpaceAPI.py** included in the Yost 3Space sensor API
 
 The following python modules should also be installed:
+
 pylsl
+
 numpy
 
 ## Usage:
 This is a command line scripts that acceps the following parameters: 
 
-srate (int, optional): streaming rate required to the sensors in frames per secs. Default: 100
+**srate** (int, optional): streaming rate required to the sensors in frames per secs. Default: 100
     
-lslRate(int, optional; Default: None): streaming rate declared to Lab Streaming Layer. If none, the declared sampling rate is estimated by measuring the lag between the storage of consecutive packets during the initialization step.
+**lslRate** (int, optional; Default: None): streaming rate declared to Lab Streaming Layer. If none, the declared sampling rate is estimated by measuring the lag between the storage of consecutive packets during the initialization step.
     
-name(int, optional; Default: 'YostSens'): streaming name
+**name** (int, optional; Default: 'YostSens'): streaming name
         
-comPortName (str, optional; Default: 'COM10'): name of the COM port
+**comPortName** (str, optional; Default: 'COM10'): name of the COM port
 
-logicalIDs (list of int >=0 and <=15, optional. Default: [0,1]): IDs of the sensor(s) to stream
+**logicalIDs** (list of int >=0 and <=15, optional. Default: [0,1]): IDs of the sensor(s) to stream
         
-content (list of (max 8) strings, optional; Default: ['READ_TARED_ORIENTATION_AS_MAT','READ_TARED_ORIENTATION_AS_AXIS_ANGLE' ,'READ_TARED_ORIENTATION_AS_EULER' ]): 
+**content** (list of (max 8) strings, optional; Default: ['READ_TARED_ORIENTATION_AS_MAT','READ_TARED_ORIENTATION_AS_AXIS_ANGLE' ,'READ_TARED_ORIENTATION_AS_EULER' ]): 
 	streaming variables  
 
-typeStreaming (str, optional; Default: 'IMUs'): type of streaming declared to Lab Streaming Layer
+**typeStreaming** (str, optional; Default: 'IMUs'): type of streaming declared to Lab Streaming Layer
 
 ## Examples:
 from the command line 
 
-python yost3sLSL -s 90
+**python yost3sLSL -s 90**
 
 from IPython console:
 
-%run yost3sLSL -s 90
+**%run yost3sLSL -s 90**
