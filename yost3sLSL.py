@@ -4,6 +4,8 @@ accelleration, orientation, etc.) from one or more Yost 3Space Mini Wirelees IMU
 sensors connected to the PC via a wireless dongle.
 This script must be located in the same folder as ThreeSpaceAPI.py. That folder
 must contain a subfolder named exampleComClasses and containing the script USB_ExampleClass.py 
+# %%
+
 
 
 Connect 3-Space Dongle to PC using usb cable and urn on the wireless sensor(s). 
@@ -78,11 +80,11 @@ def initialize_sensor_streaming(comPortName,logicalIDs,content,srate ):
     -------
     com : obj
         comunication object.
-    sensor : obj
+    sensor : TYPE
         sensor object.
-    n_channels : int
+    n_channels : TYPE
         number of channels to stream.
-    nominal_sr : float
+    nominal_sr : TYPE
         achieved sr.
 
     '''
@@ -91,6 +93,7 @@ def initialize_sensor_streaming(comPortName,logicalIDs,content,srate ):
     while (success==0) & (nTrials<10):
         nTrials+=1
         # Create communication object instance.
+
         com = USB_ExampleClass.UsbCom(portName=comPortName,timeout=0.05)
         # Create sensor instance. This will call the open function of the communication object
         # and set our buffer length to desired length.
@@ -128,9 +131,10 @@ def initialize_sensor_streaming(comPortName,logicalIDs,content,srate ):
         nEmptyPackets=0
         while (nPacketsReceived<50) & (nEmptyPackets<50):
             # Streamed data is added to buffer. This method safely accesses that buffer
+            nSens=0
             for thisID in logicalIDs:
-                data[thisID] = sensor.getOldestStreamingPacket(logicalID=thisID)
-         
+                data[nSens] = sensor.getOldestStreamingPacket(logicalID=thisID)
+                nSens+=1
             if None in data :# if one of the packet retrived is none
                 # allow the streaming thread time to fill the streaming buffer
                 time.sleep(1/srate)
@@ -181,7 +185,7 @@ def main(argv):
         
     content: list of (max 8) strings, streaming variables  
         
-    typeStreaming: str, optional. Default: 'IMU'
+    typeStreaming: str, optional. Default: 'EEG'
         type of streaming declared to Lab Streaming Layer
     
     Returns
@@ -191,19 +195,21 @@ def main(argv):
     '''
     srate=100
     lslRate=None
-    comPortName='COM10'
+    comPortName='COM4'
     name = 'YostSens'
     typeStreaming = 'IMU'
-    logicalIDs = [0,1]
-    content = ['READ_TARED_ORIENTATION_AS_MAT' , 
-               'READ_TARED_ORIENTATION_AS_AXIS_ANGLE' ,
-               'READ_TARED_ORIENTATION_AS_EULER' ]
+    logicalIDs = [1]
+    content = ['READ_TARED_ORIENTATION_AS_QUAT',
+               'READ_TARED_TWO_VECTOR_IN_SENSOR_FRAME']
+               #'READ_CORRECTED_ACCELEROMETER_VECTOR']# , 
+               # 'READ_TARED_ORIENTATION_AS_AXIS_ANGLE' ,
+               # 'READ_TARED_ORIENTATION_AS_EULER' ]
         
     
     help_string = 'SendData.py -s <sampling_rate> -m <lsl_rate> -n <stream_name> -p <port_name> -c <stream_content> -l <sensors_IDs> -t <stream_type>'
         
     try:
-        opts, args = getopt.getopt(argv, "hs:l:n:p:l:c:t:", longopts=["srate=", "lslRate=","name=", "port=","logicalIDs=","content=", "type"])
+        opts, args = getopt.getopt(argv,    "hs:l:n:p:l:c:t:", longopts=["srate=", "lslRate=","name=", "port=","logicalIDs=","content=", "type"])
     except getopt.GetoptError:
         print(help_string)
         sys.exit(2)
@@ -228,7 +234,8 @@ def main(argv):
         
     [com, sensor, n_channels, realRate]=initialize_sensor_streaming(comPortName,
                                         logicalIDs,content,srate )
-    print("Streaming initialized, nominal rate: "+str(lslRate))
+    
+    print("Streaming initialized, nominal rate: "+str(lslRate)+" channels n: "+str(n_channels) )
     
     if com is None:
         raise Exception('Unable to initialize streaming')
@@ -250,16 +257,17 @@ def main(argv):
     for thisID in logicalIDs:
         sensor.startStreaming(logicalID=thisID)
     print("Streaming started!")
-
+    print("Press ctrl+c to stop")
     data = [None]*len(logicalIDs)
     deltaTs=[]
     t0=time.perf_counter_ns()
     try:
         while True:
             # retrive data from sensors' buffers
+            nSens=0
             for thisID in logicalIDs:
-                data[thisID] = sensor.getOldestStreamingPacket(logicalID=thisID)
-         
+                data[nSens] = sensor.getOldestStreamingPacket(logicalID=thisID)
+                nSens+=1
             if None in data :# if one of the packet retrived is none
                 # allow the streaming thread time to fill the streaming buffer
                 time.sleep(1/srate)
