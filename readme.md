@@ -4,14 +4,14 @@ Simple code to create a LSL stream including one or more data types (e.g. accell
 
 Before launching the streaming the scripts performs several initialization operations:
 
-1) The first time streaming is launched after a dongle has been plugged in, streaming packets may come out empty. Therefore, the scripts tries to intialize the COM port and the sensors and launch the stream several times. Each time checking if the streamed packets are empty. 
+1) The first time streaming is launched after a dongle has been plugged in, streaming packets may come out empty. Therefore, the scripts tries to intialize the COM port and the sensors, and launches the stream several times; each time checking if the streamed packets are empty. 
 Usually two trials are enough to get data, however if after 10 trials the pakets are empty an exception is thrown. 
 
-2) During this check the time lag between consecutive non empty packets of data is used to estimate the actual sampling rate avialable with the number of sensors and the data required.
+2) During this check, the time lag between consecutive non empty packets of data is used to estimate the actual sampling rate avialable with the number of sensors and the data required.
 
 3) Finally the number of LSL streaming channels is computed based on the number of sensors and the queries sent to the sensors.
 
-After these initialization steps, the stream is launched and is interrupted only when the window in which the code is running is under focus and the user presses CTRL+C.
+After these initialization steps, the stream is launched and it is interrupted only when the window in which the code is running is under focus and the user presses CTRL+C.
 
 ## Installation and requirements:
 You need to download and unpack the Yost 3Space sensor API for Python 3 which is avialable here:
@@ -39,8 +39,7 @@ This is a command line scripts that acceps the following parameters:
 
 **logicalIDs** (list of int >=0 and <=15, optional. Default: [0,1]): IDs of the sensor(s) to stream
         
-**content** (list of (max 8) strings, optional; Default: ['READ_TARED_ORIENTATION_AS_MAT','READ_TARED_ORIENTATION_AS_AXIS_ANGLE' ,'READ_TARED_ORIENTATION_AS_EULER' ]): 
-	streaming variables  
+**content** (list of (max 8) strings, optional; Default: ['READ_TARED_ORIENTATION_AS_QUAT', 'READ_TARED_TWO_VECTOR_IN_SENSOR_FRAME' ]): streaming variables  
 
 **typeStreaming** (str, optional; Default: 'IMU'): type of streaming declared to Lab Streaming Layer
 
