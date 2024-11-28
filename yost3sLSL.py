@@ -195,10 +195,10 @@ def main(argv):
     '''
     srate=100
     lslRate=None
-    comPortName='COM4'
+    comPortName='COM10'
     name = 'YostSens'
     typeStreaming = 'IMU'
-    logicalIDs = [1]
+    logicalIDs = [0,1]
     content = ['READ_TARED_ORIENTATION_AS_QUAT',
                'READ_TARED_TWO_VECTOR_IN_SENSOR_FRAME']
                #'READ_CORRECTED_ACCELEROMETER_VECTOR']# , 
