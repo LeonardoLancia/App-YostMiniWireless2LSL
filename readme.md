@@ -27,7 +27,7 @@ pylsl
 numpy
 
 ## Usage:
-This is a command line scripts that acceps the following parameters: 
+This is a command line script that takes the following arguments: 
 
 **srate** (int, optional): streaming rate required to the sensors in frames per secs. Default: 100
     
